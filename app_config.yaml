@@ -8,7 +8,7 @@ app_settings:
 local_development_settings:
   sentry_dsn: ""
   cors_origins: ["*"]
-  routes_directory: "src/routes"
+  routes_directory: "src/modules"
   debug: true
   host: "0.0.0.0"
   port: 2003
