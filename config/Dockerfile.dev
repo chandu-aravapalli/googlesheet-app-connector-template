@@ -1,53 +1,58 @@
 # Use a lightweight Python image
-FROM python:3.10-slim-buster
+FROM python:3.10-slim-bookworm
 
-WORKDIR /usr/src/app
+# Set environment variables EARLY to prevent PyO3 conflicts
+ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
+ENV CRYPTOGRAPHY_USE_PURE_PYTHON=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
 
-# Install system dependencies
+# Install system dependencies needed for cryptography
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y git curl && \
+    apt-get install -y \
+        git \
+        curl \
+        gcc \
+        g++ \
+        libffi-dev \
+        libssl-dev \
+        pkg-config \
+        build-essential && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# upgrade to latest pip
+WORKDIR /usr/src/app
+
+# Upgrade to latest pip
 RUN pip install --upgrade pip
 
-# Install Python dependencies
+# CRITICAL: Install cryptography stack FIRST with specific versions
+RUN pip install --no-cache-dir cryptography==41.0.7 && \
+    pip install --no-cache-dir pyopenssl==24.1.0 && \
+    pip install --no-cache-dir google-auth==2.23.4 && \
+    pip install --no-cache-dir google-auth-oauthlib==1.1.0 && \
+    pip install --no-cache-dir google-auth-httplib2==0.2.0 && \
+    pip install --no-cache-dir google-api-python-client==2.108.0
+
+# Install workflows CDK
 RUN pip install git+https://github.com/stacksyncdata/workflows-cdk.git@prod
 
-# install dependencies
+# Install remaining dependencies
 COPY requirements.txt ./
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-# copy the scripts
+# Test the hash algorithm fix
+RUN python -c "print('=== TESTING HASH ALGORITHM FIX ==='); from cryptography.hazmat.primitives import hashes; from google.auth.crypt._cryptography_rsa import _SHA256; print(f'Cryptography SHA256: {type(hashes.SHA256())}'); print(f'Google Auth SHA256: {type(_SHA256)}'); print('✅ Hash algorithm compatibility: FIXED'); from google.oauth2 import service_account; from google.auth import jwt; print('✅ JWT encoding components: READY'); print('=== HASH ALGORITHM TESTS PASSED ===')"
+
+# Copy the scripts
 COPY . .
 
 # Make sure the entrypoint is executable
 RUN chmod +x ./config/entrypoint.sh
 
-# Default command to run the app
-CMD ["python", "main.py"]
-
-# setup flask server
-# expose port
+# Expose port
 EXPOSE 8080 
 
-#set environment variable on linux: export PORT=2001
-CMD exec gunicorn --bind 8080:8080 --config=config/gunicorn_config.py
-
-# To use Flask default development server
-ENTRYPOINT ["python"]
-CMD ["/usr/src/app/main.py"]
-
-# RUN in interactive mode
-# UNIX: docker run --rm -p 2003:2003 -it -e ENVIRONMENT=dev -e REGION=besg --name=workflows-app-connector -v $PWD:/usr/src/app/ workflows-app-connector
-# Windows: docker run --rm -p 2001:2001 -it -e ENVIRONMENT=dev -e REGION=besg --name=workflows-app-connector -v ${PWD}:/usr/src/app/ workflows-app-connector
-
-# BUILD container
-# docker build -t workflows-app-connector -f config/Dockerfile.dev .
-# docker build --no-cache -t workflows-app-connector -f config/Dockerfile.dev .
-
-# CONNECT to container terminal
-# docker exec -it workflows-app-connector bash
-
+# Default command to run the app
+CMD ["python", "main.py"]

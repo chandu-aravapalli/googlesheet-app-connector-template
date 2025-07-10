@@ -1,0 +1,3 @@
+module_settings:
+  module_name: 'Upsert Data in Sheet'
+  module_description: 'Insert or update rows in a Google Sheet by matching a key column. If a row with the key exists, update it; otherwise, insert a new row.' 

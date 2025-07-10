@@ -1,0 +1,64 @@
+{
+  "metadata": {
+    "workflows_module_schema_version": "1.0.0"
+  },
+  "fields": [
+    {
+      "id": "spreadsheet_id",
+      "type": "string",
+      "label": "Spreadsheet ID",
+      "description": "Copy the ID from your Google Sheets URL (the part between /d/ and /edit). Example: 1A2B3C4D5E6F7G8H9I0J",
+      "validation": {
+        "required": true
+      },
+      "ui_options": {
+        "placeholder": "1A2B3C4D5E6F7G8H9I0J"
+      }
+    },
+    {
+      "id": "sheet_name",
+      "type": "string",
+      "label": "Sheet Name",
+      "description": "Name of the tab inside the spreadsheet (e.g., Sheet1, Data, etc.)",
+      "validation": {
+        "required": true
+      },
+      "ui_options": {
+        "placeholder": "Sheet1"
+      }
+    },
+    {
+      "id": "data_to_insert",
+      "type": "string",
+      "label": "Data to Insert",
+      "description": "Paste a JSON array of objects. Each object represents a row, with keys matching column names. Example: [{\"Name\": \"John\", \"Email\": \"john@example.com\"}]",
+      "validation": {
+        "required": true
+      },
+      "ui_options": {
+        "ui_widget": "textarea",
+        "placeholder": "[{\"Name\": \"John\", \"Email\": \"john@example.com\"}]"
+      }
+    },
+    {
+      "id": "include_headers",
+      "type": "boolean",
+      "label": "First Row Contains Headers",
+      "description": "Check this if the first row of inserted data should include column headers",
+      "validation": {
+        "required": false
+      },
+      "ui_options": {
+        "ui_widget": "checkbox"
+      }
+    }
+  ],
+  "ui_options": {
+    "ui_order": [
+      "spreadsheet_id",
+      "sheet_name",
+      "data_to_insert",
+      "include_headers"
+    ]
+  }
+}

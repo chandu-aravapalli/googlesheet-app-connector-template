@@ -1,15 +1,31 @@
-# Flask
-flask
-werkzeug
-pyopenssl==24.1.0
-requests
+# Flask and Web Framework
+flask==2.2.0
+werkzeug==2.2.0
+pyopenssl==24.1.0 
+requests==2.31.0
+
 # Server
 gunicorn==22.0.0
-# Additional Requirements
-## Add your additional requirements here
-authlib==1.1.0
-sentry-sdk[Flask]
 
-# Core
-pydantic>=2.0.0
-PyYAML>=6.0.1
+# Authentication and Security
+authlib==1.1.0
+sentry-sdk[Flask]==2.32.0
+
+# Data Validation and Configuration
+pydantic==2.11.7
+PyYAML==6.0.2
+
+
+# FIXED: Compatible Google API stack - All versions work together
+cryptography==42.0.8
+# Google API stack - These versions are compatible with each other
+google-auth==2.40.3
+google-auth-oauthlib==1.1.0  
+google-auth-httplib2==0.2.0
+google-api-python-client==2.108.0
+
+
+# Additional dependencies with compatible versions
+protobuf==4.25.1
+uritemplate==4.1.1
+

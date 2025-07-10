@@ -1,0 +1,59 @@
+{
+  "metadata": {
+    "workflows_module_schema_version": "1.0.0"
+  },
+  "fields": [
+    {
+      "id": "spreadsheet_id",
+      "type": "string",
+      "label": "Spreadsheet ID",
+      "description": "Copy the ID from your Google Sheets URL (the part between /d/ and /edit). Example: 1A2B3C4D5E6F7G8H9I0J",
+      "validation": { "required": true },
+      "ui_options": { "placeholder": "1A2B3C4D5E6F7G8H9I0J" }
+    },
+    {
+      "id": "sheet_name",
+      "type": "string",
+      "label": "Sheet Name",
+      "description": "Name of the tab inside the spreadsheet (e.g., Sheet1, Data, etc.)",
+      "validation": { "required": true },
+      "ui_options": { "placeholder": "Sheet1" }
+    },
+    {
+      "id": "key_column",
+      "type": "string",
+      "label": "Key Column",
+      "description": "The column header to use as the unique key for upsert (e.g., FileName, Email, ID)",
+      "validation": { "required": true },
+      "ui_options": { "placeholder": "FileName" }
+    },
+    {
+      "id": "data_to_upsert",
+      "type": "string",
+      "label": "Data to Upsert",
+      "description": "Paste a JSON array of objects. Each object represents a row. Example: [{\"FileName\": \"A\", \"University\": \"B\", \"Decision\": \"B\"}]",
+      "validation": { "required": true },
+      "ui_options": {
+        "ui_widget": "textarea",
+        "placeholder": "[{\"FileName\": \"A\", \"University\": \"B\", \"Decision\": \"B\"}]"
+      }
+    },
+    {
+      "id": "confirm_upsert",
+      "type": "boolean",
+      "label": "Confirm Upsert",
+      "description": "Check this box to confirm you want to upsert the data.",
+      "validation": { "required": true },
+      "ui_options": { "ui_widget": "checkbox" }
+    }
+  ],
+  "ui_options": {
+    "ui_order": [
+      "spreadsheet_id",
+      "sheet_name",
+      "key_column",
+      "data_to_upsert",
+      "confirm_upsert"
+    ]
+  }
+} 

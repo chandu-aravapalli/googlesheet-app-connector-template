@@ -1,0 +1,77 @@
+{
+  "metadata": {
+    "workflows_module_schema_version": "1.0.0"
+  },
+  "fields": [
+    {
+      "id": "spreadsheet_id",
+      "type": "string",
+      "label": "Spreadsheet ID",
+      "description": "Copy the ID from your Google Sheets URL (the part between /d/ and /edit). Example: 1A2B3C4D5E6F7G8H9I0J",
+      "validation": {
+        "required": true
+      },
+      "ui_options": {
+        "placeholder": "1A2B3C4D5E6F7G8H9I0J"
+      }
+    },
+    {
+      "id": "sheet_name",
+      "type": "string",
+      "label": "Sheet Name",
+      "description": "Name of the tab inside the spreadsheet (e.g., Sheet1, Data, etc.)",
+      "validation": {
+        "required": true
+      },
+      "ui_options": {
+        "placeholder": "Sheet1"
+      }
+    },
+    {
+      "id": "range",
+      "type": "string",
+      "label": "Range to Update",
+      "description": "Specify the range to update (e.g., A1:D5, B2:C10). Leave empty to update entire sheet.",
+      "validation": {
+        "required": false
+      },
+      "ui_options": {
+        "placeholder": "A1:D5"
+      }
+    },
+    {
+      "id": "update_data",
+      "type": "string",
+      "label": "Data to Update",
+      "description": "Enter the data to update. For single cell: 'value'. For multiple cells: JSON array like [['row1col1', 'row1col2'], ['row2col1', 'row2col2']]",
+      "validation": {
+        "required": true
+      },
+      "ui_options": {
+        "ui_widget": "textarea",
+        "placeholder": "[['John', 'john@example.com'], ['Jane', 'jane@example.com']]"
+      }
+    },
+    {
+      "id": "confirm_update",
+      "type": "boolean",
+      "label": "Confirm Update",
+      "description": "Check this box to confirm that you want to update the specified data. This will overwrite existing data.",
+      "validation": {
+        "required": true
+      },
+      "ui_options": {
+        "ui_widget": "checkbox"
+      }
+    }
+  ],
+  "ui_options": {
+    "ui_order": [
+      "spreadsheet_id",
+      "sheet_name",
+      "range",
+      "update_data",
+      "confirm_update"
+    ]
+  }
+} 

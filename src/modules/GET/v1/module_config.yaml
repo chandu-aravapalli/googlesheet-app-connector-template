@@ -1,0 +1,3 @@
+module_settings:
+  module_name: 'Read Data from Sheet'
+  module_description: 'Read data from a specific Google Sheet by providing the spreadsheet ID and range'
